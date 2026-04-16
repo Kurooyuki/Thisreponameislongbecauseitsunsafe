@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYSTEM CRITICAL ERROR</title>
     <style>
-        /* Mengatur background agar stretch/full screen */
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-image: url('1000159334.jpg'); /* Pastikan file gambar satu folder dengan file html ini */
+            background-color: #000000;
+            background-image: url('1000159334.jpg'); 
             background-size: 100% 100%;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -18,88 +18,129 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            color: #ffffff;
             overflow: hidden;
         }
 
-        /* Overlay gelap agar teks mudah dibaca */
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.85);
+        .box {
+            background-color: rgba(0, 0, 0, 0.92);
             padding: 40px;
             border: 2px solid #ff0000;
             text-align: center;
-            max-width: 600px;
-            box-shadow: 0 0 20px #ff0000;
+            max-width: 650px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
         }
 
         h1 {
             color: #ff0000;
             font-size: 2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            animation: blink 1s infinite;
+            margin-bottom: 10px;
+            animation: blink 0.8s infinite;
         }
 
-        p {
-            line-height: 1.6;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+        .timer-box {
+            font-size: 2.5rem;
+            color: #ff0000;
+            font-weight: bold;
+            margin: 20px 0;
+            background: #1a0000;
+            padding: 10px;
+            border: 1px solid #330000;
         }
 
-        .input-container {
-            margin-top: 20px;
-        }
-
-        input[type="password"] {
-            background: #222;
+        input[type="text"] {
+            background: #111;
             border: 1px solid #ff0000;
             color: #00ff00;
-            padding: 10px;
-            width: 80%;
+            padding: 12px;
+            width: 90%;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             outline: none;
+            text-transform: uppercase;
         }
 
-        .warning-footer {
-            margin-top: 25px;
-            font-size: 0.8rem;
-            color: #888;
+        .status-msg {
+            margin-top: 15px;
+            height: 20px;
+            font-size: 0.9rem;
         }
 
-        /* Efek kedip untuk teks bahaya */
         @keyframes blink {
             0% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.2; }
             100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="overlay">
-        <h1>⚠ YOUR PERSONAL DATA HAS BEEN ENCRYPTED ⚠</h1>
-        <p>
-            All your documents, photos, databases, and other important files have been encrypted using a military-grade algorithm. 
-            Any attempt to restore these files without our private key will result in <b>permanent data loss.</b>
-        </p>
+    <div class="box">
+        <h1>⚠ SYSTEM ENCRYPTED ⚠</h1>
+        <p>Your personal data has been locked. Enter the decryption key before the timer expires, or all data will be permanently destroyed.</p>
+        
+        <div class="timer-box" id="countdown">48:00:00</div>
         
         <div class="input-container">
-            <label for="pass">TYPE YOUR PASSWORD HERE:</label><br><br>
-            <input type="password" id="pass" placeholder="Enter Decryption Key...">
-        </div>
-
-        <div class="warning-footer">
-            Time remaining: <span id="timer">47:59:59</span>
+            <label style="color: #888; display: block; margin-bottom: 10px;">TYPE YOUR PASSWORD HERE:</label>
+            <input type="text" id="keyInput" placeholder="ENTER KEY..." autocomplete="off">
+            <div id="status" class="status-msg"></div>
         </div>
     </div>
 
     <script>
-        // Sedikit script interaktif untuk efek tombol enter
-        document.getElementById('pass').addEventListener('keypress', function (e) {
+        // Kunci yang Anda minta
+        const correctKey = "KQW87-67896-POPAQ-69420";
+        
+        // Logika Timer Mundur (48 Jam)
+        let totalSeconds = 48 * 3600; 
+
+        function updateTimer() {
+            let hours = Math.floor(totalSeconds / 3600);
+            let minutes = Math.floor((totalSeconds % 3600) / 60);
+            let seconds = totalSeconds % 60;
+
+            // Format agar selalu 2 digit (misal: 09)
+            let display = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+
+            document.getElementById('countdown').innerHTML = display;
+
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            } else {
+                document.getElementById('countdown').innerHTML = "00:00:00";
+                alert("TIME EXPIRED. DATA DELETED.");
+            }
+        }
+
+        // Jalankan timer setiap 1 detik
+        setInterval(updateTimer, 1000);
+
+        // Cek Password
+        const inputField = document.getElementById('keyInput');
+        const statusMsg = document.getElementById('status');
+
+        inputField.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                alert('ACCESS DENIED: Invalid Decryption Key.');
-                this.value = '';
+                const val = this.value.trim().toUpperCase();
+
+                if (val === correctKey) {
+                    statusMsg.style.color = "#00ff00";
+                    statusMsg.innerHTML = "KEY ACCEPTED. SYSTEM RESTORE IN PROGRESS...";
+                    this.disabled = true;
+                    // Berhenti menghitung mundur
+                    totalSeconds = totalSeconds; 
+                    setTimeout(() => {
+                        alert("Decryption Successful.");
+                    }, 1000);
+                } else {
+                    statusMsg.style.color = "#ff0000";
+                    statusMsg.innerHTML = "ACCESS DENIED. TRY AGAIN.";
+                    this.value = '';
+                }
             }
         });
     </script>
