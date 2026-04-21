@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM CRITICAL ERROR</title>
+    <style>
+        /* Mengatur background agar stretch/full screen */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('1000159334.jpg'); /* Pastikan file gambar satu folder dengan file html ini */
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Overlay gelap agar teks mudah dibaca */
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border: 2px solid #ff0000;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 0 20px #ff0000;
+        }
+
+        h1 {
+            color: #ff0000;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            animation: blink 1s infinite;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .input-container {
+            margin-top: 20px;
+        }
+
+        input[type="password"] {
+            background: #222;
+            border: 1px solid #ff0000;
+            color: #00ff00;
+            padding: 10px;
+            width: 80%;
+            text-align: center;
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .warning-footer {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Efek kedip untuk teks bahaya */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <h1>⚠ YOUR PERSONAL DATA HAS BEEN ENCRYPTED ⚠</h1>
+        <p>
+            All your documents, photos, databases, and other important files have been encrypted. 
+            Any attempt to restore these files without our private key will result in <b>permanent data loss.</b>
+        </p>
+        
+        <div class="input-container">
+            <label for="pass">TYPE YOUR PASSWORD HERE:</label><br><br>
+            <input type="password" id="pass" placeholder="Enter Decryption Key...">
+        </div>
+
+        <div class="warning-footer">
+            Time remaining: <span id="timer">47:59:59</span>
+        </div>
+    </div>
+
+    <script>
+        // Sedikit script interaktif untuk efek tombol enter
+        document.getElementById('pass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                alert('ACCESS DENIED: Invalid Decryption Key.');
+                this.value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>
